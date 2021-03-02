@@ -38,3 +38,4 @@ export const AnimalProvider = (props) => {
         </AnimalContext.Provider>
     )
 }
+
