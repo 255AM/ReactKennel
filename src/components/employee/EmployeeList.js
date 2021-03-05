@@ -3,6 +3,7 @@ import { EmployeeContext } from "./EmployeeProvider"
 import { EmployeeCard } from "./EmployeeCard"
 import { useHistory } from 'react-router-dom'
 import { LocationContext } from "../location/LocationProvider"
+
 import "./Employee.css"
 
 export const EmployeeList = () => {
@@ -15,8 +16,8 @@ export const EmployeeList = () => {
   //useEffect - reach out to the world for something
   useEffect(() => {
     console.log("EmployeeList: useEffect - getEmployee")
-    getLocations()
-    .then(getEmployees())
+    
+    getEmployees()
   }, [])
 
 
@@ -33,7 +34,7 @@ export const EmployeeList = () => {
           const clinic = locations.find(l => l.id === employee.locationId)
           
           return <EmployeeCard key={employee.id}
-              location={clinic}
+              
               employee={employee} />
         })
       }

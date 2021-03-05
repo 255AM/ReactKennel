@@ -18,7 +18,7 @@ export const LocationForm = () => {
 
     const [location, setLocation] = useState({
       name: "",
-      locationId: 0,
+      
     });
 
     const history = useHistory();
