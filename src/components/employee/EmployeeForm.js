@@ -3,35 +3,24 @@ import { LocationContext } from "../location/LocationProvider"
 import { EmployeeContext } from "../employee/EmployeeProvider"
 
 import "./Employee.css"
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import { Animal } from "../animal/Animal";
 
 export const EmployeeForm = () => {
-    const { addEmployee, getEmployees } = useContext(EmployeeContext)
+    const { addEmployee, getEmployees, updateEmployee, getEmployeeById } = useContext(EmployeeContext)
     const { locations, getLocations } = useContext(LocationContext)
-    
-
     /*
     With React, we do not target the DOM with `document.querySelector()`. Instead, our return (render) reacts to state or props.
-
     Define the intial state of the form inputs with useState()
     */
-
-    const [employee, setEmployee] = useState({
-      name: "",
-      locationId: 0,
-    });
-
+    //for edit, hold on to state of animal in this view
+    const [employee, setEmployee] = useState({})
+    //wait for data before button is active
+    const [isLoading, setIsLoading] = useState(true);
+    const {employeeId} = useParams();
     const history = useHistory();
 
-    /*
-    Reach out to the world and get customers state
-    and locations state on initialization.
-    */
-    useEffect(() => {
-      getEmployees().then(getLocations)
-    }, [])
-
-    //when a field changes, update state. The return will re-render and display based on the values in state
+    //when field changes, update state. This causes a re-render and updates the view.
     //Controlled component
     const handleControlledInputChange = (event) => {
       /* When changing a state object or array,
@@ -46,20 +35,45 @@ export const EmployeeForm = () => {
     }
 
     const handleClickSaveEmployee = (event) => {
-      event.preventDefault() //Prevents the browser from submitting the form
-      employee.locationId = +employee.locationId   
-      const locationId = employee.locationId
-      
-
-      if (locationId === 0) {
+      if (employee.locationId === 0) {
         window.alert("Please select a location")
       } else {
-        //invoke addAnimal passing animal as an argument.
-        //once complete, change the url and display the animal list+
-        addEmployee(employee)
-        .then(() => history.push("/employees"))
+        //disable the button
+        setIsLoading(true)
+        if(employeeId){
+          //if we have clicked on an existing employee, there will be an id, so we know we need to edit
+          //but where are we searching for this id????????????
+          updateEmployee({
+            id:employee.id,
+            name: employee.name,
+            locationId: parseInt(employee.locationId)
+          })
+          .then(()=> history.push(`/employees/detail/${employee.id}`))
+        }else {
+          //THere was no id, make a new object
+          addEmployee({
+            name:employee.name,
+            locationId: parseInt(employee.locationId),
+          })
+          .then(() => history.push('/employees'))
+        }
       }
     }
+
+    //Get locations, but I dont know why???????????????
+    useEffect(()=>{
+      getLocations().then(()=>{
+        if (employeeId){
+          getEmployeeById(employeeId)
+          .then(employee=>{
+            setEmployee(employee)
+            setIsLoading(false)
+          })
+        } else {
+          setIsLoading(false)
+        }
+      })
+    }, [])
 
     return (
       <form className="employeeForm">
@@ -87,9 +101,11 @@ export const EmployeeForm = () => {
               
           </fieldset>
           <button className="btn btn-primary"
-            onClick={handleClickSaveEmployee}>
-            Save Employee
-          </button>
+            onClick={event => {
+              event.preventDefault()
+              handleClickSaveEmployee()
+            }}>
+            {employeeId?<>Save Employee</> : <>Add Employee</>}</button>
       </form>
     )
 }

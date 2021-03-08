@@ -48,7 +48,7 @@ export const ApplicationViews = () => {
                 </LocationProvider>
             </AnimalProvider>
 
-            {/* Render the employee list when http://localhost:3000/employees */}
+                {/* Render the employee list when http://localhost:3000/employees */}
             <EmployeeProvider>
                 <LocationProvider>
                     <Route exact path="/employees">
@@ -58,8 +58,11 @@ export const ApplicationViews = () => {
                         <EmployeeForm />
                     </Route>
                     <Route exact path="/employees/detail/:employeeId(\d+)">
-                    <EmployeeDetail />
-                </Route>
+                        <EmployeeDetail />
+                    </Route>
+                    <Route path="/employees/edit/:employeeId(\d+)">
+                        <EmployeeForm />
+                    </Route>
                 </LocationProvider>
             </EmployeeProvider>
             
@@ -74,7 +77,9 @@ export const ApplicationViews = () => {
                 <Route exact path="/locations/detail/:locationId(\d+)">
                     <LocationDetail />
                 </Route>
-                
+                <Route path="/locations/edit/:locationId(\d+)">
+                    <LocationForm />
+                </Route>
             </LocationProvider>
 
             {/* Render the employee list when http://localhost:3000/employees */}

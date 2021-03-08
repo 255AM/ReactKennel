@@ -24,6 +24,7 @@ export const LocationDetail = () => {
         <section className="location">
         {console.log(location.animals)}
         <h3 className="location__name">{location.name}</h3>
+        <h4 className='location_address'>{location.address}</h4>
         <div className='animal__names'>
             {
                 location.animals?.map(animal => {
@@ -38,9 +39,11 @@ export const LocationDetail = () => {
             })
         }   
         </div>
-        
-        
-
+        <div>
+          <button onClick={()=>{
+            history.push(`/locations/edit/${location.id}`)
+          }}>Edit</button>
+        </div>
       {/* What's up with the question mark???? See below.*/}
     </section>
     </>
