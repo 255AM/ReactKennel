@@ -6,8 +6,7 @@ export const PropsAndState = ({ yourName }) => {
   const handleClick = () => {
     //good practice:
     //make a copy of state, modifiy it, and then setState to the copy
-    const newCountClicks = ++countClicks
-    setCountClicks(newCountClicks)
+    
   }
 
   return (
