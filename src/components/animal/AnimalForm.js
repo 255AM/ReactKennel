@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react"
 import { LocationContext } from "../location/LocationProvider"
 import { AnimalContext } from "../animal/AnimalProvider"
 import { CustomerContext } from "../customer/CustomerProvider"
+import { SpeciesContext } from "../species/SpeciesProvider"
+
 import "./Animal.css"
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -10,6 +12,8 @@ export const AnimalForm = () => {
     const { addAnimal, getAnimalById, updateAnimal } = useContext(AnimalContext)
     const { locations, getLocations } = useContext(LocationContext)
     const { customers, getCustomers } = useContext(CustomerContext)
+    const { species, getSpecies } = useContext(SpeciesContext)
+    
 
     //for edit, hold on to state of animal in this view
     const [animal, setAnimal] = useState({})
@@ -44,7 +48,8 @@ export const AnimalForm = () => {
               id: animal.id,
               name: animal.name,
               locationId: parseInt(animal.locationId),
-              customerId: parseInt(animal.customerId)
+              customerId: parseInt(animal.customerId),
+              speciesId: parseInt(animal.speciesId)
           })
           .then(() => history.push(`/animals/detail/${animal.id}`))
         }else {
@@ -52,7 +57,8 @@ export const AnimalForm = () => {
           addAnimal({
               name: animal.name,
               locationId: parseInt(animal.locationId),
-              customerId: parseInt(animal.customerId)
+              customerId: parseInt(animal.customerId),
+              speciesId: parseInt(animal.speciesId)
           })
           .then(() => history.push("/animals"))
         }
@@ -62,7 +68,7 @@ export const AnimalForm = () => {
     // Get customers and locations. If animalId is in the URL, getAnimalById
     //????????????????????????what is happening????????????????
     useEffect(() => {
-      getCustomers().then(getLocations).then(() => {
+      getCustomers().then(getLocations).then(getSpecies).then(() => {
         if (animalId){
           getAnimalById(animalId)
           .then(animal => {
@@ -110,6 +116,19 @@ export const AnimalForm = () => {
             <select value={animal.customerId} name="customerId" id="customerAnimal" className="form-control" onChange={handleControlledInputChange}>
               <option value="0">Select a customer</option>
               {customers.map(c => (
+                <option key={c.id} value={c.id}>
+                    {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div className="form-group">
+            <label htmlFor="species">Species: </label>
+            <select value={animal.speciesId} name="speciesId" id="speciesAnimal" className="form-control" onChange={handleControlledInputChange}>
+              <option value="0">Select a species</option>
+              {species.map(c => (
                 <option key={c.id} value={c.id}>
                     {c.name}
                 </option>

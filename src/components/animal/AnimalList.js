@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
 import { AnimalContext } from "./AnimalProvider"
-import { AnimalCard } from "./AnimalCard"
+import { Animal } from "./Animal"
 import "./Animal.css"
 import { useHistory } from "react-router-dom"
 
@@ -45,7 +45,7 @@ export const AnimalList = () => {
       <div className="animals">
       {
         filteredAnimals.map(animal => {
-          return <AnimalCard key={animal.id} animal={animal} />
+          return <Animal key={animal.id} animal={animal} species={animal.species.name}/>
         })
       }
       </div>

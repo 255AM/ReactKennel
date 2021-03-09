@@ -22,6 +22,10 @@ import { EmployeeForm } from './employee/EmployeeForm';
 import {EmployeeDetail} from "./employee/EmployeeDetail"
 import { LocationDetail } from "./location/LocationDetails"
 
+import { SpeciesProvider }from "./species/SpeciesProvider"
+import { SpeciesList }from "./species/SpeciesList"
+import { SpeciesForm }from "./species/SpeciesForm"
+
 export const ApplicationViews = () => {
     return (
         <>
@@ -34,20 +38,21 @@ export const ApplicationViews = () => {
             <AnimalProvider>
                 <LocationProvider>
                     <CustomerProvider>
-                        <Route exact path="/animals">
-                            <AnimalList />
-                            <AnimalSearch />
-                        </Route>
-                        <Route exact path="/animals/create">
-                            <AnimalForm />
-                        </Route>
-                        <Route exact path="/animals/detail/:animalId(\d+)">
-                            <AnimalDetail />
-                        </Route>
-                        <Route path="/animals/edit/:animalId(\d+)">
-                            <AnimalForm />
-                        </Route>
-
+                        <SpeciesProvider>
+                            <Route exact path="/animals">
+                                <AnimalList />
+                                <AnimalSearch />
+                            </Route>
+                            <Route exact path="/animals/create">
+                                <AnimalForm />
+                            </Route>
+                            <Route exact path="/animals/detail/:animalId(\d+)">
+                                <AnimalDetail />
+                            </Route>
+                            <Route path="/animals/edit/:animalId(\d+)">
+                                <AnimalForm />
+                            </Route>
+                        </SpeciesProvider>
                     </CustomerProvider>
                 </LocationProvider>
             </AnimalProvider>
@@ -92,6 +97,16 @@ export const ApplicationViews = () => {
                     <CustomerList />
                 </Route>
             </CustomerProvider>
+
+        
+            <SpeciesProvider>
+                <Route exact path="/species">
+                    <SpeciesList />
+                </Route>
+                <Route exact path="/species/create">
+                    <SpeciesForm />
+                </Route>
+            </SpeciesProvider>
 
             
         </>
