@@ -4,11 +4,13 @@ import React, { useState, createContext } from "react"
 // The context is imported and used by individual components that need data
 export const AnimalContext = createContext()
 
-// This component establishes what data can be used.
+// This component establishes what data can be used.This function is called on the appviews file whenver the route is /animals
 export const AnimalProvider = (props) => {
     //statefunction
     const [animals, setAnimals] = useState([])
-    //useSta
+    //new magic state. tracking searchTerms, set to empty string right now. We need to export setSearchTerms below. We generally have not exported setters, setAnimals for instance, becuase it is called everytime we use getAnimals
+    const [ searchTerms, setSearchTerms ] = useState("")
+
 
     const getAnimals = () => {
         return fetch("http://localhost:8088/animals?_expand=location")
@@ -59,7 +61,7 @@ export const AnimalProvider = (props) => {
     */
     return (
         <AnimalContext.Provider value={{
-            animals, getAnimals, addAnimal, getAnimalById, releaseAnimal, updateAnimal 
+            animals, getAnimals, addAnimal, getAnimalById, releaseAnimal, updateAnimal, setSearchTerms, searchTerms
         }}>
             {props.children}
         </AnimalContext.Provider>
