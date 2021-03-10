@@ -10,6 +10,7 @@ export const AnimalProvider = (props) => {
     const [animals, setAnimals] = useState([])
     //new magic state. tracking searchTerms, set to empty string right now. We need to export setSearchTerms below. We generally have not exported setters, setAnimals for instance, becuase it is called everytime we use getAnimals
     const [ searchTerms, setSearchTerms ] = useState("")
+    const [ filterTerms, setFilterTerms ] = useState('')
 
 
     const getAnimals = () => {
@@ -61,7 +62,7 @@ export const AnimalProvider = (props) => {
     */
     return (
         <AnimalContext.Provider value={{
-            animals, getAnimals, addAnimal, getAnimalById, releaseAnimal, updateAnimal, setSearchTerms, searchTerms
+            animals, getAnimals, addAnimal, getAnimalById, releaseAnimal, updateAnimal, setSearchTerms, searchTerms, filterTerms, setFilterTerms
         }}>
             {props.children}
         </AnimalContext.Provider>

@@ -7,11 +7,13 @@ import { useHistory } from "react-router-dom"
 //AnimalList is exported and called at appviews when route is /animals. 
 export const AnimalList = () => {
     //Bringing these in at AnimalContext.Provider on the provider file
-  const { animals, getAnimals, searchTerms } = useContext(AnimalContext)
+  const { animals, getAnimals, searchTerms, filterTerms } = useContext(AnimalContext)
+  
 
   // Since you are no longer ALWAYS displaying all of the animals
   // set filteredAnimals to state as empty array
   const [ filteredAnimals, setFiltered ] = useState([])
+  const [ filteredSpecies, setFilteredSpecies ] = useState([])
   //use history to change route as needed
   const history = useHistory()
 
@@ -23,7 +25,7 @@ export const AnimalList = () => {
   // useEffect dependency array with dependencies - will run if dependency changes (state)
   // searchTerms will cause a change
   useEffect(() => {
-    if (searchTerms !== "") {
+    if (searchTerms !== "0") {
       // If the search field is not blank, display matching animals
       //subset is array of animals with matchign chars (all forced to lower case)
       const subset = animals.filter(animal => animal.name.toLowerCase().includes(searchTerms))
@@ -34,6 +36,9 @@ export const AnimalList = () => {
       setFiltered(animals)
     }
   }, [searchTerms, animals])
+
+  
+
 
   return (
     <>
